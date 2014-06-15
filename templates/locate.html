@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	 
+	
+    <title>Cover Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+       <link href="{% static "bootstrap/css/bootstrap.css" %}" rel="stylesheet">
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	
+    <!-- Custom styles for this template -->
+    <link href="{% static "css/cover.css" %}" rel="stylesheet">
+	<script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5Ezc8TCFBXvDFBRwmoT2NqHrVRGwVZng&sensor=FALSE">
+    </script>
+	
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	<script>
+	var image = "{% static "bus.png" %}";
+	var stops=[];
+	var i=0;
+	var busloc=new google.maps.LatLng({{vp.lat}},{{vp.lon}})
+	var length={{stoplocations|length}};
+	var si=Math.floor(length/8);
+	{% for stoplocation in stoplocations %}
+		if(i==0 || i==length-1){
+			stops.push({'location':new google.maps.LatLng({{stoplocation.lat}},{{stoplocation.lon}})});
+		}
+		else if(i%si==0){
+		stops.push({'location':new google.maps.LatLng({{stoplocation.lat}},{{stoplocation.lon}})});
+		}
+		i=i+1;
+	{% endfor %}
+	var start=stops[0]['location']
+	var end=stops[stops.length-1]['location'];
+    stops.splice(0,1);
+    stops.splice(stops.length-1,1);
+	
+	
+	var directionsDisplay;
+	var directionsService = new google.maps.DirectionsService();
+	      function initialize() {
+	    	  directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
+	        var mapOptions = {
+	          center: new google.maps.LatLng(43.8561, -79.337019),
+	          zoom: 15
+	        };
+	        var map = new google.maps.Map(document.getElementById("map-canvas"),
+	            mapOptions);
+	        directionsDisplay.setMap(map);
+        
+	        var marker = new google.maps.Marker({
+	            position: busloc,
+	            map: map,
+	            title: 'Bus Location',
+	            icon:image
+	        });
+	        var marker = new google.maps.Marker({
+	            position: start,
+	            map: map,
+	            title: 'Bus Location'
+	        });
+	        var marker = new google.maps.Marker({
+	            position: end,
+	            map: map,
+	            title: 'Bus Location'
+	        });
+	
+	    	  var request = {
+	    	      origin:start,
+	    	      destination:end,
+	    	      waypoints:stops,
+	    	      travelMode: google.maps.TravelMode.DRIVING
+	    	  };
+	    	  directionsService.route(request, function(response, status) {
+	    	    if (status == google.maps.DirectionsStatus.OK) {
+	    	      directionsDisplay.setDirections(response);
+	    	    }
+	    	  });
+	    	
+	      }
+	      google.maps.event.addDomListener(window, 'load', initialize);
+	    </script>
+
+  </head>
+
+  <body>
+
+    
+		<div id="map-canvas"/>
+		
+
+    
+  </body>
+</html>

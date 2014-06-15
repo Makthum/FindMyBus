@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Cover Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+       <link href="{% static "bootstrap/css/bootstrap.css" %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static "css/cover.css" %}" rel="stylesheet">
+
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  </head>
+
+  <body>
+
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <form method="get">
+
+          <table class="table table-hover table-responsive">
+      <thead>
+        <tr class="success">
+
+		  <th class="text-center">select</th>
+          <th class="text-center">Route No</th>
+          <th class="text-center">Start Time</th>
+        </tr>
+      </thead>
+      <tbody>
+          {% for stop_time in stoptimes %}
+        <tr>
+
+          <td>{{ stop_time.stop_name }}</td>
+           <td>{{ stop_time.arrival_time }}</td>
+          <td>{{ stop_time.departure_time }}</td>
+
+        </tr>
+          {% endfor %}
+        
+
+      </tbody>
+    </table>
+	<div class="row">
+  <div class="col-xs-4">
+    <input type="submit" value="Locate" class="btn btn-primary " onclick="this.form.action='/locate';">
+  </div>
+  <div class="col-xs-4">
+    <input  type="submit" value="Schedule" class="btn btn-primary" onclick="this.form.action='/schedule';">
+	</div>
+  <div class="col-xs-4">
+   <input type="submit" value="Predictions" class="btn btn-primary " onclick="this.form.action='/predictions';">
+  </div>
+</div>
+	</div>
+
+</form>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript
+================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+  </body>
+</html>
