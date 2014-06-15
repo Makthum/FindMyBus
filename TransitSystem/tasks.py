@@ -14,11 +14,11 @@ __author__ = 'zarroc'
 
 @task(name='loadrealtimedata')
 def load_realtime():
-    files=urllib.urlretrieve("http://rtu.york.ca/gtfsrealtime/VehiclePositions","/home/zarroc/workspace/bustransit/Bustransit/TransitSystem/VehiclePositions")
+    files=urllib.urlretrieve("http://rtu.york.ca/gtfsrealtime/VehiclePositions","/var/www/bustransit/static/VehiclePositions")
     print files[0]
     print files[1]
     print "File Downloaded"
-    f = open("/home/zarroc/workspace/bustransit/Bustransit/TransitSystem/VehiclePositions", "rb")
+    f = open("/var/www/bustransit/static/VehiclePositions", "rb")
     data=gtfs_realtime_pb2.FeedMessage()
     data.ParseFromString(f.read())
     for entity in data.entity:
@@ -45,9 +45,9 @@ def load_realtime():
             
 @task(name='loadTripUpdates')
 def load_TripUpdates():
-    urllib.urlretrieve("http://rtu.york.ca/gtfsrealtime/TripUpdates","/home/zarroc/workspace/bustransit/Bustransit/TransitSystem/TripUpdates")
+    urllib.urlretrieve("http://rtu.york.ca/gtfsrealtime/TripUpdates","/var/www/bustransit/static/TripUpdates")
     print "File Downloaded"
-    f = open("/home/zarroc/workspace/bustransit/Bustransit/TransitSystem/TripUpdates", "rb")
+    f = open("/var/www/bustransit/static/TripUpdates", "rb")
     data=gtfs_realtime_pb2.FeedMessage()
     data.ParseFromString(f.read())
     eastern = timezone('US/Eastern')
