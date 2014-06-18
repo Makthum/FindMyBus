@@ -48,7 +48,7 @@ def searchbus(request):
         return render_to_response('results.html',{'stop_times':tripdetails})
     except:
         e = sys.exc_info()[0]
-        return render_to_response('results.html',{'error':e})
+        return render_to_response('error.html',{'error':e})
 
 def schedule(request):
     try:
@@ -67,7 +67,7 @@ def schedule(request):
         return render_to_response('schedule.html',{'stoptimes':stoptimes})
     except:
     e = sys.exc_info()[0]
-    return render_to_response('results.html',{'error':e})
+    return render_to_response('error.html',{'error':e})
 
 def locate(request):
     try:
@@ -89,7 +89,7 @@ def locate(request):
         return render_to_response('locate.html',{'stoplocations':stop_locations,'vp':vehiclepos})
     except:
         e = sys.exc_info()[0]
-        return render_to_response('results.html',{'error':e})
+        return render_to_response('error.html',{'error':e})
 
 def predict(request):
     try:
@@ -107,7 +107,7 @@ def predict(request):
         return render_to_response('predictions.html',{'stoptimes':stoptimes})
     except:
         e = sys.exc_info()[0]
-        return render_to_response('results.html',{'error':e})
+        return render_to_response('error.html',{'error':e})
 def findserviceId(date):
     date=date.date()
     result=[]
