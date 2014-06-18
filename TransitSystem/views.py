@@ -10,7 +10,7 @@ from TransitSystem.forms import SearchForm
 from models import VehiclePositions, Trips, Routes, StopTimes
 from TransitSystem.models import TripUpdates, Stops, CalendarDates
 from TransitSystem import gtfs_realtime_pb2
-import urllib
+import urllib,traceback
 from operator import itemgetter
 
 
@@ -45,7 +45,7 @@ def searchbus(request):
                         tripdetails.append(result)
         return render_to_response('results.html',{'stop_times':tripdetails})
     except:
-        e = sys.exc_info()[0]
+        e = traceback.format_exc()
         return render_to_response('error.html',{'error':e})
 
 def schedule(request):
@@ -63,7 +63,7 @@ def schedule(request):
                 stoptimes.append(stoptime)
         return render_to_response('schedule.html',{'stoptimes':stoptimes})
     except:
-        e = sys.exc_info()[0]
+        e = traceback.format_exc()
         return render_to_response('error.html',{'error':e})
 
 def locate(request):
@@ -85,7 +85,7 @@ def locate(request):
             vehiclepos['lon']=vehicleposition.p_longitude
         return render_to_response('locate.html',{'stoplocations':stop_locations,'vp':vehiclepos})
     except:
-        e = sys.exc_info()[0]
+        e = traceback.format_exc()
         return render_to_response('error.html',{'error':e})
 
 def predict(request):
@@ -102,7 +102,7 @@ def predict(request):
                 stoptimes.append(stoptime)
         return render_to_response('predictions.html',{'stoptimes':stoptimes})
     except:
-        e = sys.exc_info()[0]
+        e = traceback.format_exc()
         return render_to_response('error.html',{'error':e})
 def findserviceId(date):
     date=date.date()
