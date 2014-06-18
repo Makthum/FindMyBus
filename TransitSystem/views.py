@@ -63,8 +63,8 @@ def schedule(request):
                 stoptimes.append(stoptime)
         return render_to_response('schedule.html',{'stoptimes':stoptimes})
     except:
-    e = sys.exc_info()[0]
-    return render_to_response('error.html',{'error':e})
+        e = sys.exc_info()[0]
+        return render_to_response('error.html',{'error':e})
 
 def locate(request):
     try:
