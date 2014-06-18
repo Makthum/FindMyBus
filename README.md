@@ -6,6 +6,7 @@ Web prototype to show schedule , real-time locations and predictions for buses u
 
 
 Following technologies are used :
+====================================
 WebServer :      Apache   - EC2
 WebFramework :   Django
 TaskQueue    :   Django-celery 
