@@ -14,11 +14,11 @@ import urllib
 from operator import itemgetter
 
 
-@login_required
+#use decorator login required if needed
 def home(request):
     return render_to_response('index.html')
 
-@login_required
+
 def findbus(request):
     form=SearchForm(request.POST)
     return render_to_response('findbus.html',{'form':form},context_instance=RequestContext(request))
@@ -30,15 +30,13 @@ def searchbus(request):
             date=request.GET['searchdate']
             time=request.GET['searchtime']
             date=datetime.strptime(date,'%Y/%m/%d')
-            service_id=findserviceId(date)
-            print service_id
-            print type(time)
+            service_id=findserviceId(date) #serviceid is calculated based on day of the week 
             routes=Routes.objects.filter(route_short_name=request.GET['routeNo'])
             for route in routes:
                 trips=Trips.objects.filter(route_id=route.route_id,service_id__in=service_id)
                 for trip in trips:
                     result={}
-                    stops=StopTimes.objects.filter(trip_id=trip.trip_id,stop_sequence=1,arrival_time__gt=time)
+                    stops=StopTimes.objects.filter(trip_id=trip.trip_id,stop_sequence=1,arrival_time__gt=time) #stop sequence 1 is used to determine start pointing of the trip
                     for stop in stops:
                         result['tripName']=trip.trip_headsign
                         result['trip_id']=trip.trip_id
@@ -63,7 +61,6 @@ def schedule(request):
                 stoptime["arrival_time"]=schedule.arrival_time
                 stoptime["departure_time"]=schedule.departure_time
                 stoptimes.append(stoptime)
-            print stoptimes
         return render_to_response('schedule.html',{'stoptimes':stoptimes})
     except:
     e = sys.exc_info()[0]
@@ -99,7 +96,6 @@ def predict(request):
             schedules=TripUpdates.objects.filter(trip_id=trip_id)
             for schedule in schedules:
                 stoptime={}
-                print schedule.stop_id
                 stoptime["stop_name"]=schedule.stop_id.stop_name
                 stoptime["arrival_time"]=schedule.arrival_time
                 stoptime["departure_time"]=schedule.departure_time
